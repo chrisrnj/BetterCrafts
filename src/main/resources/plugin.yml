@@ -1,6 +1,7 @@
 name: BetterCrafts
 main: me.chickenstyle.crafts.Main
 description: adds a new way to craft items!
+depend: [ EpicPluginLib ]
 api-version: 1.13
 version: 1.0.6
 author: ChickenStyle
