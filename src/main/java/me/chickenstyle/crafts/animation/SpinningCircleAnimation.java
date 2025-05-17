@@ -79,7 +79,17 @@ public class SpinningCircleAnimation extends BukkitRunnable {
             }
             ticks++;
         } else {
-            originalLoc.getWorld().spawnParticle(Particle.EXPLOSION_LARGE, originalLoc.clone().add(0, 0.5, 0), 10);
+            Particle particle;
+            try {
+                particle = Particle.valueOf("EXPLOSION_LARGE");
+            } catch (IllegalArgumentException e) {
+                try {
+                    particle = Particle.valueOf("EXPLOSION");
+                } catch (IllegalArgumentException e2) {
+                    particle = Particle.CLOUD;
+                }
+            }
+            originalLoc.getWorld().spawnParticle(particle, originalLoc.clone().add(0, 0.5, 0), 10);
             Sounds.EXPLODE.play(player, 0.7f, 1f);
             loc.getWorld().dropItemNaturally(originalLoc, recipe.getResult());
 
