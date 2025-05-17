@@ -15,7 +15,7 @@ import java.util.Objects;
 public class IndependentVersionHandler implements NMSHandler {
     private final @NotNull Class<?> craftItemStack = Objects.requireNonNull(ReflectionUtil.getClass("CraftItemStack", SubPackageType.INVENTORY));
     private final @NotNull Method asNMSCopy = Objects.requireNonNull(ReflectionUtil.getMethod(craftItemStack, "asNMSCopy", ItemStack.class));
-    private final @NotNull Method asBukkitCopy = Objects.requireNonNull(ReflectionUtil.getMethod(craftItemStack, "asBukkitCopy", ItemStack.class));
+    private final @NotNull Method asBukkitCopy = Objects.requireNonNull(ReflectionUtil.getMethod(craftItemStack, "asBukkitCopy", net.minecraft.world.item.ItemStack.class));
     private final @NotNull Method setInt = findMethodByTypeAndParameters(Void.TYPE, String.class, int.class);
     private final @NotNull Method getInt = findMethodByTypeAndParameters(int.class, String.class);
     private final @NotNull Field tagField = Objects.requireNonNull(ReflectionUtil.findFieldByType(net.minecraft.world.item.ItemStack.class, NBTTagCompound.class, false));
