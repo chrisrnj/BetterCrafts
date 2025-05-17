@@ -3,7 +3,7 @@ package me.chickenstyle.crafts.versions;
 import com.epicnicity322.epicpluginlib.bukkit.reflection.ReflectionUtil;
 import com.epicnicity322.epicpluginlib.bukkit.reflection.type.DataType;
 import com.epicnicity322.epicpluginlib.bukkit.reflection.type.SubPackageType;
-import me.chickenstyle.crafts.NMSHandler;
+import me.chickenstyle.crafts.IDHandler;
 import net.minecraft.nbt.NBTTagCompound;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -12,7 +12,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Objects;
 
-public class IndependentVersionHandler implements NMSHandler {
+public class NonPesistentDataContainerIDHandler implements IDHandler {
     private final @NotNull Class<?> craftItemStack = Objects.requireNonNull(ReflectionUtil.getClass("CraftItemStack", SubPackageType.INVENTORY));
     private final @NotNull Method asNMSCopy = Objects.requireNonNull(ReflectionUtil.getMethod(craftItemStack, "asNMSCopy", ItemStack.class));
     private final @NotNull Method asBukkitCopy = Objects.requireNonNull(ReflectionUtil.getMethod(craftItemStack, "asBukkitCopy", net.minecraft.world.item.ItemStack.class));

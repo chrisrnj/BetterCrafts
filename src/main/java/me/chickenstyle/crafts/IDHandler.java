@@ -2,7 +2,7 @@ package me.chickenstyle.crafts;
 
 import org.bukkit.inventory.ItemStack;
 
-public interface NMSHandler {
+public interface IDHandler {
     ItemStack addIDTag(ItemStack item, int id);
 
     boolean hasIDTag(ItemStack item);

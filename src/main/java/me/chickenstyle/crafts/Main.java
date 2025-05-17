@@ -1,12 +1,14 @@
 package me.chickenstyle.crafts;
 
+import com.epicnicity322.epicpluginlib.bukkit.reflection.ReflectionUtil;
 import com.epicnicity322.epicpluginlib.core.EpicPluginLib;
 import me.chickenstyle.crafts.configs.AltarCrafts;
 import me.chickenstyle.crafts.events.ArmorStandInteractEvent;
 import me.chickenstyle.crafts.events.InteractEvent;
 import me.chickenstyle.crafts.events.InventoryEvents;
 import me.chickenstyle.crafts.events.SendMessageEvent;
-import me.chickenstyle.crafts.versions.IndependentVersionHandler;
+import me.chickenstyle.crafts.versions.NonPesistentDataContainerIDHandler;
+import me.chickenstyle.crafts.versions.PersitentDataContainerIDHandler;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -20,10 +22,10 @@ public class Main extends JavaPlugin {
     public static HashMap<UUID, Integer> animationNumber;
     public static Set<UUID> typeID;
     public static Set<UUID> opening;
-    private static NMSHandler versionHandler;
+    private static IDHandler versionHandler;
     private static Main instance;
 
-    public static NMSHandler getNMSHandler() {
+    public static IDHandler getNMSHandler() {
         return versionHandler;
     }
 
@@ -48,7 +50,7 @@ public class Main extends JavaPlugin {
         saveResource("lang.yml", false);
 
         //Check server version
-        if (!getServerVersion()) {
+        if (!setIDHandler()) {
             getServer().getConsoleSender().sendMessage(ChatColor.RED + "BetterCrafts >>> Plugin will be disabled!");
             getServer().getPluginManager().disablePlugin(this);
             return;
@@ -69,10 +71,14 @@ public class Main extends JavaPlugin {
         System.out.println(Utils.color("&aBetterCraft has been enabled!"));
     }
 
-    public boolean getServerVersion() {
+    public boolean setIDHandler() {
         try {
-            versionHandler = new IndependentVersionHandler();
-            getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "BetterCrafts >>> NMS Version Detected: " + EpicPluginLib.Platform.getVersion());
+            if (ReflectionUtil.getClass("org.bukkit.persistence.PersistentDataContainer") != null) {
+                versionHandler = new PersitentDataContainerIDHandler(this);
+            } else {
+                versionHandler = new NonPesistentDataContainerIDHandler();
+                getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "BetterCrafts >>> NMS Version Detected: " + EpicPluginLib.Platform.getVersion());
+            }
             return true;
         } catch (Throwable t) {
             t.printStackTrace();
